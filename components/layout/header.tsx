@@ -37,10 +37,8 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "glass border-b border-border/50 shadow-lg"
-          : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-border/50 ${
+        isScrolled ? "shadow-lg bg-background/95" : "shadow-sm"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -150,20 +148,62 @@ export function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-2 border-t border-border/50 mt-2 animate-in slide-in-from-top-5">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="block px-4 py-3 rounded-lg text-base font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
-            <div className="pt-4 space-y-2">
-              <Button variant="gradient" size="default" className="w-full gap-2">
-                <Wallet className="size-4" />
+          <div className="md:hidden py-4 space-y-3 glass-card border-t border-border/50 mt-2 animate-in slide-in-from-top-5 fade-in-0 duration-200">
+            {/* Navigation Links */}
+            <div className="space-y-1">
+              {navigation.map((item, index) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="block px-4 py-3 rounded-lg text-base font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 active:scale-[0.98] transition-all"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-border/30" />
+
+            {/* Network Selector */}
+            <div className="px-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="default" className="w-full gap-2 justify-start">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <span className="text-sm flex-1 text-left">Ethereum</span>
+                    <ChevronDown className="size-4 opacity-50" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className="glass-card w-[calc(100vw-2rem)]">
+                  <DropdownMenuItem>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full" />
+                      Ethereum
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full" />
+                      Polygon
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                      Base
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="px-2 space-y-2">
+              <Button variant="gradient" size="lg" className="w-full gap-2 shadow-xl">
+                <Wallet className="size-5" />
                 Connect Wallet
               </Button>
               {mounted && (
@@ -176,12 +216,12 @@ export function Header() {
                   {theme === "dark" ? (
                     <>
                       <Sun className="size-4" />
-                      Light Mode
+                      <span>Light Mode</span>
                     </>
                   ) : (
                     <>
                       <Moon className="size-4" />
-                      Dark Mode
+                      <span>Dark Mode</span>
                     </>
                   )}
                 </Button>
