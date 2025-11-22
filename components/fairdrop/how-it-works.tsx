@@ -1,10 +1,11 @@
+"use client"
+
 import { Badge } from "@/components/ui/badge"
 import {
   TrendingDown,
   BarChart3,
   CheckCircle2,
   DollarSign,
-  LucideIcon,
 } from "lucide-react"
 
 const steps = [

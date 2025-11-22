@@ -23,17 +23,44 @@ const navigation = [
 export function Header() {
   const [isScrolled, setIsScrolled] = React.useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
+  const [isMobile, setIsMobile] = React.useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
+
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768) // md breakpoint
+    }
+
+    checkMobile()
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
+
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener("resize", checkMobile)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", checkMobile)
+    }
   }, [])
+
+  // Lock body scroll when mobile menu is open on mobile devices
+  React.useEffect(() => {
+    if (isMobile && isMobileMenuOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "unset"
+    }
+    return () => {
+      document.body.style.overflow = "unset"
+    }
+  }, [isMobile, isMobileMenuOpen])
 
   return (
     <header
@@ -146,88 +173,115 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-3 glass-card border-t border-border/50 mt-2 animate-in slide-in-from-top-5 fade-in-0 duration-200">
-            {/* Navigation Links */}
-            <div className="space-y-1">
-              {navigation.map((item, index) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="block px-4 py-3 rounded-lg text-base font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 active:scale-[0.98] transition-all"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
+          <>
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden animate-in fade-in-0 duration-200"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
 
-            {/* Divider */}
-            <div className="border-t border-border/30" />
+            {/* Menu Panel */}
+            <div className="fixed inset-x-0 top-16 bottom-0 z-50 md:hidden animate-in slide-in-from-top-10 fade-in-0 duration-300">
+              <div className="h-full glass-card rounded-t-2xl p-6 overflow-y-auto">
+                {/* Navigation Links */}
+                <div className="space-y-2 mb-6">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-2 mb-3">
+                    Navigation
+                  </h3>
+                  {navigation.map((item, index) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="block px-4 py-4 rounded-xl text-lg font-medium text-foreground hover:bg-accent/50 active:scale-[0.98] transition-all border border-border/30 hover:border-border/60"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
 
-            {/* Network Selector */}
-            <div className="px-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="default" className="w-full gap-2 justify-start">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-sm flex-1 text-left">Ethereum</span>
-                    <ChevronDown className="size-4 opacity-50" />
+                {/* Divider */}
+                <div className="border-t border-border/30 my-6" />
+
+                {/* Network Selector */}
+                <div className="mb-6">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-2 mb-3">
+                    Network
+                  </h3>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="lg" className="w-full gap-2 justify-start border-border/30 hover:border-border/60">
+                        <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />
+                        <span className="text-base flex-1 text-left">Ethereum</span>
+                        <ChevronDown className="size-5 opacity-50" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="center" className="glass-card w-[calc(100vw-3rem)]">
+                      <DropdownMenuItem className="py-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2.5 h-2.5 bg-green-500 rounded-full" />
+                          <span className="text-base">Ethereum</span>
+                        </div>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="py-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2.5 h-2.5 bg-purple-500 rounded-full" />
+                          <span className="text-base">Polygon</span>
+                        </div>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="py-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2.5 h-2.5 bg-blue-500 rounded-full" />
+                          <span className="text-base">Base</span>
+                        </div>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-border/30 my-6" />
+
+                {/* Action Buttons */}
+                <div className="space-y-3">
+                  <Button variant="gradient" size="xl" className="w-full gap-3 shadow-xl">
+                    <Wallet className="size-5" />
+                    <span className="text-base">Connect Wallet</span>
                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="glass-card w-[calc(100vw-2rem)]">
-                  <DropdownMenuItem>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full" />
-                      Ethereum
-                    </div>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                      Polygon
-                    </div>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                      Base
-                    </div>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="px-2 space-y-2">
-              <Button variant="gradient" size="lg" className="w-full gap-2 shadow-xl">
-                <Wallet className="size-5" />
-                Connect Wallet
-              </Button>
-              {mounted && (
-                <Button
-                  variant="outline"
-                  size="default"
-                  className="w-full gap-2"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                >
-                  {theme === "dark" ? (
-                    <>
-                      <Sun className="size-4" />
-                      <span>Light Mode</span>
-                    </>
-                  ) : (
-                    <>
-                      <Moon className="size-4" />
-                      <span>Dark Mode</span>
-                    </>
+                  {mounted && (
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="w-full gap-3 border-border/30 hover:border-border/60"
+                      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                    >
+                      {theme === "dark" ? (
+                        <>
+                          <Sun className="size-5" />
+                          <span className="text-base">Light Mode</span>
+                        </>
+                      ) : (
+                        <>
+                          <Moon className="size-5" />
+                          <span className="text-base">Dark Mode</span>
+                        </>
+                      )}
+                    </Button>
                   )}
-                </Button>
-              )}
+                </div>
+
+                {/* Footer Info */}
+                <div className="mt-8 pt-6 border-t border-border/30">
+                  <p className="text-xs text-center text-muted-foreground">
+                    Fairdrop Beta • Decentralized Auctions
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </nav>
     </header>

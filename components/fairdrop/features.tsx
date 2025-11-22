@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -7,7 +9,6 @@ import {
   BarChart3,
   Lock,
   Zap,
-  LucideIcon,
 } from "lucide-react"
 
 const features = [
