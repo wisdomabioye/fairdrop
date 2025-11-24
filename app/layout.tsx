@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { BlockchainProvider } from "@/components/providers/blockchain-provider";
+import { WalletProvider } from "@/lib/blockchain/wallets/WalletProvider";
 
 import "./globals.css";
 
@@ -31,9 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <BlockchainProvider>
+          <WalletProvider>
             {children}
-          </BlockchainProvider>
+          </WalletProvider>
         </ThemeProvider>
       </body>
     </html>
