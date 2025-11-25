@@ -24,7 +24,7 @@
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { AuctionContract } from '../lib/blockchain/contracts';
 import { SUPPORTED_CHAIN } from '../types/blockchain';
-import { chainConfig, testnetChainConfig } from '../lib/blockchain/config/chains';
+import { getViemChain } from '../lib/blockchain/config/registry';
 import { type Address } from 'viem';
 import { useMemo } from 'react';
 
@@ -63,9 +63,8 @@ export function useAuction(auctionAddress: Address | undefined, chainId: number)
  * @param chain - The supported chain enum value
  */
 export function useAuctionForChain(auctionAddress: Address | undefined, chain: SUPPORTED_CHAIN) {
-  // Get the viem chain object to extract chainId
-  const viemChain = chainConfig[chain as keyof typeof chainConfig] ||
-                    testnetChainConfig[chain as keyof typeof testnetChainConfig];
+  // Get the viem chain object from registry
+  const viemChain = getViemChain(chain);
 
   if (!viemChain) {
     throw new Error(`Unsupported chain: ${chain}`);

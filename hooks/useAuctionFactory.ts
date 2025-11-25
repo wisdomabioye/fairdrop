@@ -18,9 +18,8 @@
 
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { AuctionFactoryContract } from '../lib/blockchain/contracts';
-import { getContractAddress } from '../lib/blockchain/config/contracts';
 import { SUPPORTED_CHAIN } from '../types/blockchain';
-import { chainConfig, testnetChainConfig } from '../lib/blockchain/config/chains';
+import { getViemChain, getAuctionFactoryAddress } from '../lib/blockchain/config/registry';
 import { type Address } from 'viem';
 import { useMemo } from 'react';
 
@@ -56,15 +55,18 @@ export function useAuctionFactory(factoryAddress: Address | undefined, chainId: 
  * This is the RECOMMENDED way to use the hook as it handles chain mapping automatically.
  */
 export function useAuctionFactoryForChain(chain: SUPPORTED_CHAIN) {
-  const contracts = getContractAddress(chain);
+  const factoryAddress = getAuctionFactoryAddress(chain);
 
-  // Get the viem chain object to extract chainId
-  const viemChain = chainConfig[chain as keyof typeof chainConfig] ||
-                    testnetChainConfig[chain as keyof typeof testnetChainConfig];
+  // Get the viem chain object from registry
+  const viemChain = getViemChain(chain);
 
   if (!viemChain) {
     throw new Error(`Unsupported chain: ${chain}`);
   }
 
-  return useAuctionFactory(contracts.auctionFactory, viemChain.id);
+  if (!factoryAddress) {
+    throw new Error(`No factory address configured for chain: ${chain}`);
+  }
+
+  return useAuctionFactory(factoryAddress, viemChain.id);
 }

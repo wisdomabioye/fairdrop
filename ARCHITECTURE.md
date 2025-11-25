@@ -12,10 +12,10 @@
 
 ```
 lib/blockchain/config/
-├── transports.ts      # Single source of truth for RPC endpoints (Alchemy URLs)
-├── wagmi.ts          # Wagmi chains & config (imports transports)
-├── viem.ts           # Viem public clients (imports transports)
-└── contracts.ts      # Contract addresses per chain
+├── registry.ts       # Single source of truth: chains, UI metadata, contract addresses
+├── transports.ts     # RPC endpoints (Alchemy URLs)
+├── wagmi.ts          # Wagmi chains & config (imports from registry & transports)
+└── viem.ts           # Viem public clients (imports from registry & transports)
 
 lib/blockchain/wallets/adapters/
 └── rainbowkit/

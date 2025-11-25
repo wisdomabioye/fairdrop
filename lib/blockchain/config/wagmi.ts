@@ -1,50 +1,30 @@
+/**
+ * Wagmi Configuration
+ *
+ * Uses centralized registry for chain configuration.
+ * To enable/disable chains, edit ENABLED_CHAINS in registry.ts
+ */
+
+import { type Chain } from 'viem';
 import { createConfig } from 'wagmi';
-import {
-  // mainnet,
-  // polygon,
-  // polygonZkEvm,
-  // base,
-  // bsc,
-  // sepolia,
-  polygonAmoy,
-  // baseSepolia,
-  // bscTestnet,
-} from 'wagmi/chains';
+import { getEnabledViemChains } from './registry';
 import { transports } from './transports';
 
-// Define custom chains
-export const polygonZkEvmCardona = {
-  id: 2442,
-  name: 'Polygon zkEVM Cardona',
-  iconUrl: 'https://amoy.polygonscan.com/assets/poly/images/svg/logos/token-light.svg?v=25.11.3.0',
-  nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-  rpcUrls: {
-    default: { http: ['https://rpc.cardona.zkevm-rpc.com'] },
-  },
-  blockExplorers: {
-    default: { name: 'Explorer', url: 'https://cardona-zkevm.polygonscan.com' },
-  },
-  testnet: true,
-} as const;
+// Get enabled chains from registry
+const enabledChains = getEnabledViemChains();
 
-// Wagmi chains configuration
-export const chains = [
-  // mainnet,
-  // polygon,
-  // polygonZkEvm,
-  // base,
-  // bsc,
-  // sepolia,
-  // polygonZkEvmCardona,
-  polygonAmoy,
-  // baseSepolia,
-  // bscTestnet,
-] as const;
+// Wagmi requires at least one chain
+if (enabledChains.length === 0) {
+  throw new Error('At least one chain must be enabled in registry.ts');
+}
+
+// Type assertion is safe because we've verified length > 0
+export const chains = enabledChains as unknown as readonly [Chain, ...Chain[]];
 
 // Re-export transports for convenience
 export { transports };
 
-// Create and export the config (for legacy compatibility)
+// Create and export the config
 export const config = createConfig({
   chains,
   transports,

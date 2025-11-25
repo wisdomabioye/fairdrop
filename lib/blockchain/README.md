@@ -16,8 +16,7 @@ lib/blockchain/
 │   ├── polygon.ts
 │   └── solana.ts
 ├── config/                 # Configuration
-│   ├── chains.ts           # Chain configurations
-│   ├── contracts.ts        # Contract addresses by chain
+│   ├── registry.ts         # Single source: chains, UI metadata, contract addresses
 │   ├── viem.ts            # Viem client setup
 │   └── wagmi.ts           # Wagmi configuration
 ├── contracts/             # Typed contract wrappers
@@ -97,16 +96,13 @@ function MyComponent() {
 
 ```tsx
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import { useAuctionFactory } from '@/lib/blockchain/hooks/useAuctionFactory';
-import { CONTRACT_ADDRESSES } from '@/lib/blockchain/config/contracts';
+import { useAuctionFactoryForChain } from '@/lib/blockchain/hooks/useAuctionFactory';
 import { SUPPORTED_CHAIN } from '@/types/blockchain';
 
 function CreateAuction() {
   const { address } = useAccount();
   const { connect, connectors } = useConnect();
-  const factory = useAuctionFactory(
-    CONTRACT_ADDRESSES[SUPPORTED_CHAIN.ETHEREUM]!.auctionFactory
-  );
+  const factory = useAuctionFactoryForChain(SUPPORTED_CHAIN.ETHEREUM);
 
   const handleCreateAuction = async () => {
     if (!factory) return;
@@ -222,10 +218,12 @@ const isConnected = walletService.isConnected();
 ## Adding New Chains
 
 1. Add chain to `SUPPORTED_CHAIN` enum in `types/blockchain.ts`
-2. Add chain config to `config/chains.ts`
-3. Add contract addresses to `config/contracts.ts`
-4. Create or update adapter in `adapters/`
-5. Update factory in `factory.ts`
+2. Add chain configuration to `config/registry.ts`:
+   - Add viem chain to `CHAIN_MAP`
+   - Add UI metadata (icon, colors) to `CHAIN_UI`
+   - Add environment variable for contract address (e.g., `NEXT_PUBLIC_[CHAIN]_AUCTION_FACTORY_ADDRESS`)
+   - Add chain to `ENABLED_CHAINS` array
+3. Create or update adapter in `adapters/` if needed
 
 ## Type Safety
 

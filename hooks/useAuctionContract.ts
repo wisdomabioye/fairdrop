@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 import { usePublicClient, useWalletClient } from 'wagmi';
 import { AuctionContract, AuctionFactoryContract } from '@/lib/blockchain/contracts';
 import { SUPPORTED_CHAIN } from '@/types/blockchain';
-import { getContractAddress } from '@/lib/blockchain/config/contracts';
+import { getAuctionFactoryAddress } from '@/lib/blockchain/config/registry';
 import type { Address } from 'viem';
 
 /**
@@ -23,11 +23,15 @@ export function useAuctionFactory(chain: SUPPORTED_CHAIN) {
   const factory = useMemo(() => {
     if (!publicClient) return null;
 
-    const contracts = getContractAddress(chain);
+    const factoryAddress = getAuctionFactoryAddress(chain);
+    if (!factoryAddress) {
+      throw new Error(`No factory address configured for chain: ${chain}`);
+    }
+
     return new AuctionFactoryContract(
       publicClient,
       walletClient || null,
-      contracts.auctionFactory
+      factoryAddress
     );
   }, [publicClient, walletClient, chain]);
 
