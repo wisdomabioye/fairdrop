@@ -219,3 +219,28 @@ export function isChainEnabled(chainKey: SUPPORTED_CHAIN): boolean {
 export function getAuctionFactoryAddress(chainKey: SUPPORTED_CHAIN): `0x${string}` | null {
   return CHAIN_UI[chainKey]?.auctionFactoryAddress ?? null;
 }
+
+
+/**
+ * Get mainnet chains (enabled ones only)
+ */
+export function getMainnetChains() {
+  return getEnabledChains()
+    .filter(config => !config.chain.testnet)
+    .reduce((acc, config) => {
+      acc[config.key] = config.chain;
+      return acc;
+    }, {} as Partial<Record<SUPPORTED_CHAIN, Chain>>);
+}
+
+/**
+ * Get testnet chains (enabled ones only)
+ */
+export function getTestnetChains() {
+  return getEnabledChains()
+    .filter(config => config.chain.testnet)
+    .reduce((acc, config) => {
+      acc[config.key] = config.chain;
+      return acc;
+    }, {} as Partial<Record<SUPPORTED_CHAIN, Chain>>);
+}
