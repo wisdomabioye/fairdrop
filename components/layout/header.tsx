@@ -10,8 +10,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Menu, X, Wallet, Moon, Sun, ChevronDown } from "lucide-react"
+import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react"
 import { useTheme } from "next-themes"
+import { WalletConnectButton } from "@/lib/blockchain/wallets/WalletProvider"
 
 const navigation = [
   { name: "Auctions", href: "/auctions" },
@@ -120,42 +121,10 @@ export function Header() {
               </Button>
             )}
 
-            {/* Network Selector (Desktop) */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild className="hidden lg:flex">
-                <Button variant="outline" size="default" className="gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-sm">Ethereum</span>
-                  <ChevronDown className="size-4 opacity-50" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="glass-card">
-                <DropdownMenuItem>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full" />
-                    Ethereum
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                    Polygon
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                    Base
-                  </div>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
             {/* Connect Wallet */}
-            <Button variant="gradient" size="default" className="gap-2 hidden sm:flex">
-              <Wallet className="size-4" />
-              Connect Wallet
-            </Button>
+            <div className="hidden sm:flex">
+              <WalletConnectButton />
+            </div>
 
             {/* Mobile Menu Button */}
             <Button
@@ -206,51 +175,12 @@ export function Header() {
                 {/* Divider */}
                 <div className="border-t border-border/30 my-6" />
 
-                {/* Network Selector */}
-                <div className="mb-6">
-                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-2 mb-3">
-                    Network
-                  </h3>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="lg" className="w-full gap-2 justify-start border-border/30 hover:border-border/60">
-                        <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />
-                        <span className="text-base flex-1 text-left">Ethereum</span>
-                        <ChevronDown className="size-5 opacity-50" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="center" className="glass-card w-[calc(100vw-3rem)]">
-                      <DropdownMenuItem className="py-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-2.5 h-2.5 bg-green-500 rounded-full" />
-                          <span className="text-base">Ethereum</span>
-                        </div>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="py-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-2.5 h-2.5 bg-purple-500 rounded-full" />
-                          <span className="text-base">Polygon</span>
-                        </div>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="py-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-2.5 h-2.5 bg-blue-500 rounded-full" />
-                          <span className="text-base">Base</span>
-                        </div>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-
                 {/* Divider */}
                 <div className="border-t border-border/30 my-6" />
 
                 {/* Action Buttons */}
                 <div className="space-y-3">
-                  <Button variant="gradient" size="xl" className="w-full gap-3 shadow-xl">
-                    <Wallet className="size-5" />
-                    <span className="text-base">Connect Wallet</span>
-                  </Button>
+                  <WalletConnectButton />
                   {mounted && (
                     <Button
                       variant="outline"

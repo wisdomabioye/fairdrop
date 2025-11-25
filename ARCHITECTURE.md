@@ -51,10 +51,10 @@ import { useAuctionFactoryForChain } from '@/hooks/useAuctionFactory';
 
 const factory = useAuctionFactoryForChain(SUPPORTED_CHAIN.ETHEREUM);
 
-// Read operations
+// Read operations (reads from Ethereum regardless of connected wallet chain)
 const auctions = await factory?.getAllAuctions();
 
-// Write operations (requires connected wallet)
+// Write operations (requires wallet connected to Ethereum)
 await factory?.createAuction(...);
 ```
 
@@ -62,15 +62,20 @@ await factory?.createAuction(...);
 ```tsx
 import { useAuction } from '@/hooks/useAuction';
 
-const auction = useAuction(auctionAddress);
+const auction = useAuction(auctionAddress, 1); // 1 = Ethereum mainnet
 
-// Read operations
+// Read operations (reads from Ethereum regardless of connected wallet chain)
 const state = await auction?.getAuctionState();
 const price = await auction?.getCurrentPrice();
 
-// Write operations (requires connected wallet)
+// Write operations (requires wallet connected to Ethereum)
 await auction?.placeBid(quantity);
 ```
+
+**Important**:
+- Public client (read operations) uses the **specified chain** via `chainId` parameter
+- Wallet client (write operations) uses the **connected wallet's chain**
+- If you need to write to a contract, ensure the wallet is connected to the correct chain first
 
 #### 3. Chain Switching
 ```tsx

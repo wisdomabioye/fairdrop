@@ -10,7 +10,8 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
-import { RainbowKitProvider as RKProvider } from '@rainbow-me/rainbowkit';
+import { RainbowKitProvider as RKProvider, darkTheme, lightTheme } from '@rainbow-me/rainbowkit';
+import { useTheme } from 'next-themes';
 import { wagmiConfig } from './config';
 import type { WalletProviderProps } from '../../types';
 
@@ -19,10 +20,14 @@ import '@rainbow-me/rainbowkit/styles.css';
 const queryClient = new QueryClient();
 
 export function RainbowKitProvider({ children }: WalletProviderProps) {
+  const { theme } = useTheme();
+
   return (
     <WagmiProvider config={wagmiConfig as any}>
       <QueryClientProvider client={queryClient}>
-        <RKProvider>
+        <RKProvider
+          theme={theme === 'dark' ? darkTheme() : lightTheme()}
+        >
           {children}
         </RKProvider>
       </QueryClientProvider>

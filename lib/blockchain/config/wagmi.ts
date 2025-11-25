@@ -1,14 +1,14 @@
 import { createConfig } from 'wagmi';
 import {
-  mainnet,
-  polygon,
-  polygonZkEvm,
-  base,
-  bsc,
-  sepolia,
+  // mainnet,
+  // polygon,
+  // polygonZkEvm,
+  // base,
+  // bsc,
+  // sepolia,
   polygonAmoy,
-  baseSepolia,
-  bscTestnet,
+  // baseSepolia,
+  // bscTestnet,
 } from 'wagmi/chains';
 import { transports } from './transports';
 
@@ -16,6 +16,7 @@ import { transports } from './transports';
 export const polygonZkEvmCardona = {
   id: 2442,
   name: 'Polygon zkEVM Cardona',
+  iconUrl: 'https://amoy.polygonscan.com/assets/poly/images/svg/logos/token-light.svg?v=25.11.3.0',
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
   rpcUrls: {
     default: { http: ['https://rpc.cardona.zkevm-rpc.com'] },
@@ -28,16 +29,16 @@ export const polygonZkEvmCardona = {
 
 // Wagmi chains configuration
 export const chains = [
-  mainnet,
-  polygon,
-  polygonZkEvm,
-  base,
-  bsc,
-  sepolia,
-  polygonZkEvmCardona,
+  // mainnet,
+  // polygon,
+  // polygonZkEvm,
+  // base,
+  // bsc,
+  // sepolia,
+  // polygonZkEvmCardona,
   polygonAmoy,
-  baseSepolia,
-  bscTestnet,
+  // baseSepolia,
+  // bscTestnet,
 ] as const;
 
 // Re-export transports for convenience

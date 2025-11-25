@@ -22,7 +22,7 @@ export function SimpleAuctionExample() {
 
   // Your custom hooks
   const auctionAddress = '0x...' as `0x${string}`; // Replace with real address
-  const auction = useAuction(auctionAddress);
+  const auction = useAuction(auctionAddress, 1); // 1 = Ethereum mainnet
   const factory = useAuctionFactoryForChain(SUPPORTED_CHAIN.ETHEREUM);
 
   const handlePlaceBid = async () => {
