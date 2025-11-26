@@ -13,13 +13,8 @@ import {
 import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react"
 import { useTheme } from "next-themes"
 import { WalletConnectButton } from "@/lib/blockchain/wallets/WalletProvider"
-
-const navigation = [
-  { name: "Auctions", href: "/auctions" },
-  { name: "Create", href: "/create" },
-  { name: "My Bids", href: "/my-bids" },
-  { name: "My Auctions", href: "/my-auctions" },
-]
+import { ChainSelector, useSelectedChain } from "@/components/layout/ChainSelector"
+import { getNavigationItems } from "@/constants/app.route"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = React.useState(false)
@@ -27,6 +22,8 @@ export function Header() {
   const [isMobile, setIsMobile] = React.useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
+  const selectedChain = useSelectedChain()
+  const navigation = getNavigationItems(selectedChain)
 
   React.useEffect(() => {
     setMounted(true)
@@ -105,6 +102,9 @@ export function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2">
+            {/* Chain Selector */}
+            <ChainSelector />
+
             {/* Theme Toggle */}
             {mounted && (
               <Button

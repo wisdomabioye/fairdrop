@@ -28,4 +28,12 @@ export function WalletConnectButton() {
 }
 
 // Re-export wagmi hooks for convenience (these work with any wagmi-based library)
-export { useAccount, useConnect, useDisconnect, useSwitchChain, useChainId } from 'wagmi';
+export {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useSwitchChain,
+  useChainId,
+  usePublicClient,
+  useWalletClient,
+} from 'wagmi';

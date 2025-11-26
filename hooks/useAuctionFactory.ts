@@ -16,9 +16,9 @@
  * ```
  */
 
-import { usePublicClient, useWalletClient } from 'wagmi';
 import { AuctionFactoryContract } from '../lib/blockchain/contracts';
 import { SUPPORTED_CHAIN } from '../types/blockchain';
+import { usePublicClient, useWalletClient } from '@/lib/blockchain/wallets/WalletProvider';
 import { getViemChain, getAuctionFactoryAddress } from '../lib/blockchain/config/registry';
 import { type Address } from 'viem';
 import { useMemo } from 'react';

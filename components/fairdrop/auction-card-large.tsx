@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Clock, ArrowRight } from "lucide-react"
 
-export function AuctionDemo() {
+export function AuctionCardLarge() {
   const auctionProgress = 67
 
   return (

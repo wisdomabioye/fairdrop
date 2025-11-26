@@ -29,6 +29,7 @@ import { parseEther, type Address, isAddress } from 'viem';
 import { ArrowLeft, ArrowRight, CheckCircle2, Coins, Clock, Package } from 'lucide-react';
 import { SUPPORTED_CHAIN } from '@/types/blockchain';
 import { useCreateAuction } from '@/hooks/useCreateAuction';
+import { getViemChain } from '@/lib/blockchain/config/registry';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -80,6 +81,10 @@ export function CreateAuctionForm({
 }: CreateAuctionFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const { createAuction, isLoading, error, auctionAddress } = useCreateAuction(chain);
+
+  // Get native token symbol for the selected chain
+  const viemChain = getViemChain(chain);
+  const nativeTokenSymbol = viemChain?.nativeCurrency?.symbol || 'ETH';
 
   const {
     register,
@@ -204,7 +209,7 @@ export function CreateAuctionForm({
                   <p className="text-sm text-destructive">{errors.paymentToken.message}</p>
                 )}
                 <p className="text-xs text-muted-foreground">
-                  Token buyers will pay with (use zero address for native token like ETH)
+                  Token buyers will pay with (use zero address for native token like {nativeTokenSymbol})
                 </p>
               </div>
             </>
@@ -216,7 +221,7 @@ export function CreateAuctionForm({
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="startPrice">
-                    Start Price (ETH) *
+                    Start Price ({nativeTokenSymbol}) *
                   </Label>
                   <Input
                     id="startPrice"
@@ -233,7 +238,7 @@ export function CreateAuctionForm({
 
                 <div className="space-y-2">
                   <Label htmlFor="floorPrice">
-                    Floor Price (ETH) *
+                    Floor Price ({nativeTokenSymbol}) *
                   </Label>
                   <Input
                     id="floorPrice"
@@ -252,7 +257,7 @@ export function CreateAuctionForm({
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="priceDecrement">
-                    Price Decrement (ETH) *
+                    Price Decrement ({nativeTokenSymbol}) *
                   </Label>
                   <Input
                     id="priceDecrement"
@@ -339,7 +344,7 @@ export function CreateAuctionForm({
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="flex items-center gap-1">
                     <Coins className="w-3 h-3 text-muted-foreground" />
-                    <span>Price: {formData.startPrice || '?'} → {formData.floorPrice || '?'} ETH</span>
+                    <span>Price: {formData.startPrice || '?'} → {formData.floorPrice || '?'} {nativeTokenSymbol}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Package className="w-3 h-3 text-muted-foreground" />

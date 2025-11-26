@@ -24,8 +24,8 @@ import { type Address } from 'viem';
 import { SUPPORTED_CHAIN } from '@/types/blockchain';
 import { useAuctionFactoryForChain } from './useAuctionFactory';
 import { AuctionContract } from '@/lib/blockchain/contracts';
-import { usePublicClient, useWalletClient } from 'wagmi';
 import { getViemChain } from '@/lib/blockchain/config/registry';
+import { usePublicClient, useWalletClient } from '@/lib/blockchain/wallets/WalletProvider';
 
 export interface UserBid {
   /** Address of the auction contract */

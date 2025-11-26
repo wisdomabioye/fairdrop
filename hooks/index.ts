@@ -30,5 +30,8 @@ export type {
 export { useCreateAuction } from './useCreateAuction';
 export type { UseCreateAuctionResult } from './useCreateAuction';
 
+export { usePlaceBid } from './usePlaceBid';
+export type { UsePlaceBidOptions, UsePlaceBidResult } from './usePlaceBid';
+
 export { useClaimTokens } from './useClaimTokens';
 export type { ClaimInfo, UseClaimTokensResult } from './useClaimTokens';

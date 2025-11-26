@@ -22,8 +22,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { type Address } from 'viem';
-import { useAccount } from 'wagmi';
 import { SUPPORTED_CHAIN } from '@/types/blockchain';
+import { useAccount } from '@/lib/blockchain/wallets/WalletProvider';
 import { useAuctionForChain } from './useAuction';
 
 export interface ClaimInfo {

@@ -30,9 +30,10 @@ import { SUPPORTED_CHAIN } from '@/types/blockchain';
 import { useAuctionForChain } from '@/hooks/useAuction';
 import { AuctionStatus } from '@/lib/blockchain/contracts';
 import { getChainConfig } from '@/lib/blockchain/config/registry';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { BidButton } from './BidButton';
 import { cn } from '@/lib/utils/index';
 
 export interface AuctionCardProps {
@@ -46,6 +47,10 @@ export interface AuctionCardProps {
   className?: string;
   /** Show external link icon */
   showExternalLink?: boolean;
+  /** Show quick bid button */
+  showBidButton?: boolean;
+  /** Callback when bid succeeds */
+  onBidSuccess?: (hash: string) => void;
 }
 
 interface AuctionData {
@@ -68,9 +73,14 @@ export function AuctionCard({
   onClick,
   className,
   showExternalLink = false,
+  showBidButton = true,
+  onBidSuccess,
 }: AuctionCardProps) {
   const auction = useAuctionForChain(auctionAddress, chain);
   const chainConfig = getChainConfig(chain);
+
+  // Get native token symbol for the selected chain
+  const nativeTokenSymbol = chainConfig?.chain.nativeCurrency?.symbol || 'ETH';
 
   const [auctionData, setAuctionData] = useState<AuctionData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -199,13 +209,13 @@ export function AuctionCard({
               Current Price
             </span>
             <span className="font-bold text-lg">
-              {formatEther(auctionData.currentPrice)} ETH
+              {formatEther(auctionData.currentPrice)} {nativeTokenSymbol}
             </span>
           </div>
 
           <div className="flex items-center justify-between text-xs">
             <span className="text-muted-foreground">Floor Price</span>
-            <span className="font-medium">{formatEther(auctionData.floorPrice)} ETH</span>
+            <span className="font-medium">{formatEther(auctionData.floorPrice)} {nativeTokenSymbol}</span>
           </div>
         </div>
 
@@ -258,6 +268,21 @@ export function AuctionCard({
           </span>
         </div>
       </CardContent>
+
+      {/* Bid Button */}
+      {showBidButton && auctionData.isActive && (
+        <CardFooter className="pt-0">
+          <BidButton
+            auctionAddress={auctionAddress}
+            chain={chain}
+            currentPrice={auctionData.currentPrice}
+            remainingSupply={auctionData.remainingSupply}
+            onSuccess={onBidSuccess}
+            variant="gradient"
+            className="w-full"
+          />
+        </CardFooter>
+      )}
     </Card>
   );
 }

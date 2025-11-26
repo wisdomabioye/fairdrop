@@ -9,7 +9,12 @@ export default function LandingLayout({
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">{children}</main>
+      {/* Add padding-top to account for fixed header (h-16 = 4rem) */}
+      <main className="flex-1 pt-16">
+        <div className="mx-auto">
+          {children}
+        </div>
+      </main>
       <Footer />
     </div>
   )
