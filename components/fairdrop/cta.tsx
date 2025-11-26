@@ -1,7 +1,9 @@
 "use client"
 
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, CheckCircle2 } from "lucide-react"
+import { APP_ROUTES } from "@/constants/app.route"
 
 export function CTA() {
   return (
@@ -15,13 +17,17 @@ export function CTA() {
           Join thousands of projects using Fairdrop for transparent, automated price discovery.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button variant="gradient-aurora" size="xl" className="group">
-            Create Your Auction
-            <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
-          <Button variant="outline" size="xl">
-            Read Documentation
-          </Button>
+          <Link href={APP_ROUTES.create()}>
+            <Button variant="gradient-aurora" size="xl" className="group">
+              Create Your Auction
+              <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+          <Link href={APP_ROUTES.doc()}>
+            <Button variant="outline" size="xl">
+              Read Documentation
+            </Button>
+          </Link>
         </div>
         <div className="mt-12 flex justify-center gap-8 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">

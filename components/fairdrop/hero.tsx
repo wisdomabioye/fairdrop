@@ -1,11 +1,15 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, TrendingUp, Shield, Zap } from "lucide-react"
+import { APP_ROUTES } from "@/constants/app.route"
+import { useSelectedChain } from "@/components/layout"
 
 export function Hero() {
+  const selectedChain = useSelectedChain()
   const [isVisible, setIsVisible] = React.useState(false)
 
   React.useEffect(() => {
@@ -85,13 +89,17 @@ export function Hero() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            <Button variant="gradient-aurora" size="xl" className="group">
-              Launch Auction
-              <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button variant="outline-inverse" size="xl" className="glass">
-              Explore Auctions
-            </Button>
+            <Link href={APP_ROUTES.create()}>
+              <Button variant="gradient-aurora" size="xl" className="group">
+                Launch Auction
+                <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+            <Link href={APP_ROUTES.auctions(selectedChain)}>
+              <Button variant="glass" size="xl" className="">
+                Explore Auctions
+              </Button>
+            </Link>
           </div>
 
           {/* Trust Indicators */}

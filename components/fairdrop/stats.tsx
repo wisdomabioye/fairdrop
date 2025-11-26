@@ -2,15 +2,51 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-
-const stats = [
-  { value: "$50M+", label: "Total Volume Traded", change: "+125%" },
-  { value: "10K+", label: "Successful Auctions", change: "+89%" },
-  { value: "45K+", label: "Active Participants", change: "+156%" },
-  { value: "99.9%", label: "Uptime Guarantee", change: "100%" },
-]
+import { useAuctions } from "@/hooks/useAuctions"
+import { SUPPORTED_CHAIN } from "@/types/blockchain"
 
 export function Stats() {
+  // Fetch total auctions from blockchain
+  const { totalAuctions, isLoading } = useAuctions(SUPPORTED_CHAIN.POLYGON_AMOY, {
+    pageSize: 1, // We only need the count, not the actual auctions
+    autoLoad: true,
+  })
+
+  // Format total auctions for display
+  const formatAuctionCount = (count: bigint | null) => {
+    if (count === null) return "..."
+    const num = Number(count)
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}K+`
+    return num.toString()
+  }
+
+  const stats = [
+    {
+      value: formatAuctionCount(totalAuctions),
+      label: "Total Auctions",
+      change: isLoading ? "Loading..." : "Live Data",
+      isLive: true
+    },
+    {
+      value: "0K+",
+      label: "Active Participants",
+      change: "Growing Daily",
+      isLive: false
+    },
+    {
+      value: "$0M+",
+      label: "Total Volume Traded",
+      change: "All Chains",
+      isLive: false
+    },
+    {
+      value: "99.9%",
+      label: "Uptime Guarantee",
+      change: "24/7 Available",
+      isLive: false
+    },
+  ]
+
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -26,8 +62,12 @@ export function Stats() {
                   {stat.value}
                 </div>
                 <div className="text-sm text-muted-foreground mb-3">{stat.label}</div>
-                <Badge variant="gradient-soft" className="text-xs">
-                  {stat.change} this month
+                <Badge
+                  variant={stat.isLive ? "gradient-soft" : "glass"}
+                  className="text-xs"
+                >
+                  {stat.isLive && <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5 animate-pulse" />}
+                  {stat.change}
                 </Badge>
               </CardContent>
             </Card>

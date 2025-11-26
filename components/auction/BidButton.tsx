@@ -52,7 +52,7 @@ export interface BidButtonProps {
   /** Button size */
   size?: 'default' | 'sm' | 'lg' | 'icon';
   /** Button variant */
-  variant?: 'default' | 'outline' | 'ghost' | 'gradient';
+  variant?: 'default' | 'outline' | 'ghost' | 'gradient' | 'gradient-aurora';
   /** Show as icon only */
   iconOnly?: boolean;
   /** Disabled state */

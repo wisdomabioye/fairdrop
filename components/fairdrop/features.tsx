@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   TrendingDown,
+  TrendingDownIcon,
   Users,
   Shield,
   BarChart3,
@@ -13,18 +14,18 @@ import {
 
 const features = [
   {
-    icon: TrendingDown,
+    icon: TrendingDownIcon,
     title: "Descending Price Model",
     description:
       "Prices automatically decrease at preset intervals until demand meets supply, ensuring fair market discovery.",
-    gradient: "gradient",
+    gradient: "gradient-ocean",
   },
   {
     icon: Users,
     title: "Uniform Clearing Price",
     description:
       "Every participant pays the same final price—no early-bird advantages, just pure equality.",
-    gradient: "gradient-soft",
+    gradient: "gradient-aurora",
   },
   {
     icon: Shield,
@@ -52,7 +53,7 @@ const features = [
     title: "Cross-Chain Compatible",
     description:
       "Launch auctions on Ethereum, Polygon, Base, and more. Multi-chain support out of the box.",
-    gradient: "gradient-soft",
+    gradient: "gradient-aurora",
   },
 ] as const
 
@@ -65,7 +66,7 @@ export function Features() {
             Core Features
           </Badge>
           <h2 className="text-4xl font-bold mb-4">
-            Why Choose <span className="text-gradient-primary">Fairdrop?</span>
+            Why <span className="text-gradient-primary">Fairdrop?</span> 
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Built for fairness, powered by blockchain. Experience the next generation of

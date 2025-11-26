@@ -10,33 +10,30 @@ import {
   ArrowUpRight,
   Heart,
 } from "lucide-react"
+import { useSelectedChain } from "@/components/layout/ChainSelector"
+import { APP_ROUTES } from "@/constants/app.route"
 
-const footerLinks = {
+const getFooterLinks = (chain: number) => ({
   product: [
-    { name: "Auctions", href: "/auctions" },
-    { name: "Create Auction", href: "/create" },
-    { name: "How it Works", href: "/how-it-works" },
-    { name: "Pricing", href: "/pricing" },
+    { name: "Auctions", href: APP_ROUTES.auctions(chain) },
+    { name: "Create Auction", href: APP_ROUTES.create() },
+    { name: "How it Works", href: "/#how-it-works" },
   ],
   resources: [
-    { name: "Documentation", href: "/docs" },
-    { name: "API Reference", href: "/api" },
-    { name: "Whitepaper", href: "/whitepaper" },
-    { name: "Blog", href: "/blog" },
+    { name: "Documentation", href: APP_ROUTES.doc() },
+    { name: "API Reference", href: APP_ROUTES.api() },
+    { name: "Whitepaper", href: APP_ROUTES.whitepaper() },
   ],
   company: [
-    { name: "About", href: "/about" },
-    { name: "Careers", href: "/careers" },
-    { name: "Press Kit", href: "/press" },
-    { name: "Contact", href: "/contact" },
+    { name: "About", href: APP_ROUTES.about() },
+    { name: "Contact", href: APP_ROUTES.contact() },
   ],
   legal: [
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms of Service", href: "/terms" },
-    { name: "Cookie Policy", href: "/cookies" },
-    { name: "Security", href: "/security" },
+    { name: "Privacy Policy", href: APP_ROUTES.privacy() },
+    { name: "Terms of Service", href: APP_ROUTES.terms() },
+    { name: "Cookie Policy", href: APP_ROUTES.cookies() },
   ],
-}
+})
 
 // Simple icon components for social media
 const TwitterIcon = () => (
@@ -52,14 +49,16 @@ const GitHubIcon = () => (
 )
 
 const socialLinks = [
-  { name: "Twitter", icon: TwitterIcon, href: "https://twitter.com/fairdrop" },
-  { name: "GitHub", icon: GitHubIcon, href: "https://github.com/fairdrop" },
-  { name: "Discord", icon: MessageCircle, href: "https://discord.gg/fairdrop" },
+  { name: "Twitter", icon: TwitterIcon, href: "https://x.com/#" },
+  { name: "GitHub", icon: GitHubIcon, href: "https://github.com/#" },
+  { name: "Discord", icon: MessageCircle, href: "https://discord.gg/#" },
   { name: "Email", icon: Mail, href: "mailto:xpldevelopers@gmail.com" },
 ]
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  const selectedChain = useSelectedChain()
+  const footerLinks = getFooterLinks(selectedChain)
 
   return (
     <footer className="relative border-t border-border/50 bg-gradient-surface">

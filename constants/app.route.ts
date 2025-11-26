@@ -45,9 +45,17 @@ export const APP_ROUTES = {
   myAuctions: (chain: SUPPORTED_CHAIN) => `/${getChainSlug(chain)}/my-auctions`,
   myBids: (chain: SUPPORTED_CHAIN) => `/${getChainSlug(chain)}/my-bids`,
 
-  // Future routes (when detail pages are added)
   auctionDetail: (chain: SUPPORTED_CHAIN, auctionAddress: string) =>
     `/${getChainSlug(chain)}/auctions/${auctionAddress}`,
+  doc: () => '/docs',
+  api: () => '/api',
+  whitepaper: () => '/whitepaper',
+  about: () => '/about',
+  contact: () => '/contact',
+  privacy: () => '/privacy',
+  cookies: () => '/cookies',
+  terms: () => '/terms',
+
 };
 
 /**
