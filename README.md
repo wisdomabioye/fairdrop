@@ -2,6 +2,10 @@
 
 Fairdrop is a decentralized, transparent, and market-driven auction protocol that revolutionizes how digital assets are priced and distributed. Using a descending-price (Dutch-style) model with uniform clearing, Fairdrop ensures every participant pays the same fair price discovered by true market demand.
 
+
+**Smart Contracts**: [github.com/wisdomabioye/fairdrop-evm](https://github.com/wisdomabioye/fairdrop-evm)
+
+
 ## 🎯 Key Problems Solved
 
 - **No Gas Wars**: Descending price model eliminates competition for transaction priority
@@ -26,7 +30,7 @@ Fairdrop is a decentralized, transparent, and market-driven auction protocol tha
 ## 🌐 Supported Chains
 
 - ✅ **Polygon Amoy (Testnet)** - Live
-- 🚧 **Polygon Mainnets, Ethereum, Base, Arbitrum, Optimism** - Coming Q1 2026
+- 🚧 **Polygon Mainnets, Ethereum, Base, Arbitrum, Optimism (Mainnet)** - Mainnet support coming Q1 2026
 - 🚧 **Linera** - Q1 2026
 
 ## 🛠️ Tech Stack
@@ -64,6 +68,7 @@ NEXT_PUBLIC_REOWN_PROJECT_ID=your_project_id
 
 # Optional (recommended)
 NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_key
+# Used for connecting to Alchemy's blockchain API for reliable RPC access (optional, recommended)
 ```
 
 ### Development
@@ -149,10 +154,10 @@ Fiat integration, white-label solutions, mobile app, institutional compliance
 
 ## 📞 Contact
 
-- **Email**: xpldevelopers@gmail.com
+- **Website**: www.fairdrop.io (launching Q1 2026)
 - **Website**: www.fairdrop.io (coming soon)
 - **Smart Contracts**: [github.com/wisdomabioye/fairdrop-evm](https://github.com/wisdomabioye/fairdrop-evm)
 
 ---
 
-**Built with ❤️ for fair markets.**
+**Empowering fair and transparent markets for all participants.**
