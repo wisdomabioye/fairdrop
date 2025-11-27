@@ -54,12 +54,12 @@ export function AuctionCardLarge({
 
   // Fetch latest auction if no specific address provided
   const { auctions, isLoading: isLoadingAuctions } = useAuctions(chain, {
-    pageSize: 1,
+    pageSize: 10,
     autoLoad: !providedAddress, // Only auto-load if no specific address provided
   });
-
+  
   // Use provided address or first auction from list
-  const auctionAddress = providedAddress || auctions[0];
+  const auctionAddress = providedAddress || auctions[auctions.length - 1];
 
   // Fetch auction details
   const auction = useAuctionForChain(auctionAddress, chain);
